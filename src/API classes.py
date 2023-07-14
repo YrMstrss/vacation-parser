@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import requests
+import os
 
 class API_platform(ABC):
     """
@@ -61,4 +62,41 @@ class SuperJob_API(API_platform):
     Класс для работы с API платформы SuperJob
     """
 
-    pass
+    def __init__(self, url='https://api.superjob.ru/2.0/vacancies/'):
+        self.__url = url
+
+    def get_vacancies(self, keyword: str):
+
+        sj_api_key: str = os.getenv('SJ_API_KEY')
+
+        headers = {'X-Api-App-Id': sj_api_key}
+        params = {'keyword': keyword, 'count': 100}
+
+        request = requests.get(self.__url, headers=headers, params=params)
+
+        data = request.json()['objects']
+
+        vacancies = []
+
+        for item in data:
+            vacancy = {
+                'name': item['profession'], 'url': item['link'], 'employment': item['type_of_work'],
+                'experience': item['experience']['title'], 'area': item['town']['title']
+            }
+            if item['payment_from'] == item['payment_to'] == 0:
+                vacancy['salary'] = 'По договоренности'
+            else:
+                if item['payment_from'] == 0:
+                    vacancy['min_salary'] = 'Минимальная зарплата не указана'
+                else:
+                    vacancy['min_salary'] = item['salary']['from']
+
+                if item['payment_to'] == 0:
+                    vacancy['max_salary'] = 'Максимальная зарплата не указана'
+                else:
+                    vacancy['max_salary'] = item['salary']['to']
+                vacancy['currency'] = item['currency']
+
+            vacancies.append(vacancy)
+
+        return vacancies
