@@ -244,3 +244,15 @@ def interaction_with_user():
         data = search_without_filters(keyword, int(platform))
 
     return data
+
+
+def compare_vacancies(vacancies_list: list, first_name: str, second_name: str):
+    for vacancy in vacancies_list:
+        if vacancy.name == first_name:
+            first_vacancy = vacancy
+        if vacancy.name == second_name:
+            second_vacancy = vacancy
+
+    if first_vacancy >= second_vacancy:
+        return f'Заработная плата у вакансии "{first_vacancy}" выше, чем у "{second_vacancy}"'
+    return f'Заработная плата у вакансии "{first_vacancy}" ниже, чем у "{second_vacancy}"'
