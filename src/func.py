@@ -42,6 +42,8 @@ def search_without_filters(keyword, platform):
         vacancy = Vacancy(item)
         vacancies.append(vacancy)
 
+    return vacancies
+
 
 def interaction_with_user():
 
