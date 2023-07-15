@@ -17,20 +17,29 @@ class Vacancy:
         self.max_salary = vacancy_dict['max_salary']
         self.currency = vacancy_dict['currency']
 
+    def make_dict(self):
+        """
+        Записывает данные о вакансии в json-подобном формате
+        :return: Словарь с данными о вакансии
+        """
 
-def write_info_to_json(vacancy: Vacancy, file_name='results.json'):
-    vacancy_dict = {
-        'Название вакансии': vacancy.name,
-        'Ссылка на объявление': vacancy.url,
-        'Тип занятости': vacancy.employment,
-        'Опыт работы': vacancy.experience,
-        'Город': vacancy.area,
-        'Заработная плата': {
-            'От': vacancy.min_salary,
-            'До': vacancy.min_salary,
-            'Валюта': vacancy.currency
+        vacancy_dict = {
+            'Название вакансии': self.name,
+            'Ссылка на объявление': self.url,
+            'Тип занятости': self.employment,
+            'Опыт работы': self.experience,
+            'Город': self.area,
+            'Заработная плата': {
+                'От': self.min_salary,
+                'До': self.min_salary,
+                'Валюта': self.currency
+            }
         }
-    }
+
+        return json.dumps(vacancy_dict, indent=2, ensure_ascii=False)
+
+
+def write_info_to_json(vacancy_list: list, file_name='results.json'):
 
     with open(file_name, 'w') as json_file:
-        json.dump(vacancy_dict, json_file, indent=2, ensure_ascii=False)
+        json.dump(vacancy_list, json_file, indent=2, ensure_ascii=False)
