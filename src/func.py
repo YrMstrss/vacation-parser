@@ -256,3 +256,20 @@ def compare_vacancies(vacancies_list: list, first_name: str, second_name: str):
     if first_vacancy >= second_vacancy:
         return f'Заработная плата у вакансии "{first_vacancy}" выше, чем у "{second_vacancy}"'
     return f'Заработная плата у вакансии "{first_vacancy}" ниже, чем у "{second_vacancy}"'
+
+
+def compare_interactions(vacancy_list: list):
+    comparison = input('Хотите сравнить какие-то вакансии по уровню ЗП?\n')
+
+    if comparison.lower() == 'да':
+        while True:
+            print('Для выхода из сравнения напишите: СТОП')
+            first_vacancy_name = input('Введите название первой вакансии для сравнения:\n')
+            second_vacancy_name = input('Введите название второй вакансии для сравнения:\n')
+
+            if first_vacancy_name.lower() == 'стоп' or second_vacancy_name.lower() == 'стоп':
+                return 'Готово'
+            else:
+                compare_vacancies(vacancy_list, first_vacancy_name, second_vacancy_name)
+    else:
+        return 'Готово'
