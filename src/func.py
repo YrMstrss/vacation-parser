@@ -105,6 +105,31 @@ def payment_filter(vacation_list, user_payment):
     return filtered_list
 
 
+def experience_filter(vacation_list, user_experience):
+    """
+    Фильтрует список вакансий, оставляя только подходящие пользователю по опыту
+    :param vacation_list: Список вакансий
+    :param user_experience: Опыт пользователя
+    :return: Отфильтрованный список вакансий
+    """
+
+    filtered_list = []
+
+    for vacancy in vacation_list:
+        if user_experience == 3:
+            filtered_list.append(vacancy)
+        elif user_experience == 2 and vacancy['experience'] != 'От 6 лет':
+            filtered_list.append(vacancy)
+        elif user_experience == 1 and (vacancy['experience'] == 'Без опыта' or vacancy['experience'] == 'От 1 года'):
+            filtered_list.append(vacancy)
+        elif user_experience == 0 and vacancy['experience'] == 'Без опыта':
+            filtered_list.append(vacancy)
+        else:
+            continue
+
+    return filtered_list
+
+
 def search_with_filters(keyword, platform):
     """
     Поиск вакансий по ключевому слову на заданной платформе с заданными фильтрами
