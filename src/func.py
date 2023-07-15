@@ -80,6 +80,31 @@ def currency_filter(vacation_list, user_currency):
     return filtered_list
 
 
+def payment_filter(vacation_list, user_payment):
+    """
+    Фильтрует список вакансий, оставляя только подходящие пользователю по уровню ЗП
+    :param vacation_list: Список вакансий
+    :param user_payment: Указанная пользователем минимальную зарплату
+    :return: Отфильтрованный список
+    """
+
+    filtered_list = []
+
+    for vacancy in vacation_list:
+        if vacancy['min_salary'] == 'Минимальная зарплата не указана' and \
+           vacancy['max_salary'] == 'Максимальная зарплата не указана':
+            continue
+        elif vacancy['max_salary'].issubset(int):
+            if user_payment < vacancy['max_salary']:
+                filtered_list.append(vacancy)
+            else:
+                continue
+        else:
+            filtered_list.append(vacancy)
+
+    return filtered_list
+
+
 def search_with_filters(keyword, platform):
     """
     Поиск вакансий по ключевому слову на заданной платформе с заданными фильтрами
@@ -95,8 +120,9 @@ def search_with_filters(keyword, platform):
 
     vacancies_data = search_without_filters(keyword, platform)
     filtered_vacancies = currency_filter(vacancies_data, currency)
+    filtered_vacancies = payment_filter(filtered_vacancies, payment)
 
-    return vacancies_data
+    return filtered_vacancies
 
 
 def interaction_with_user():
