@@ -39,7 +39,13 @@ class Vacancy:
         return json.dumps(vacancy_dict, indent=2, ensure_ascii=False)
 
 
-def write_info_to_json(vacancy_list: list, file_name='results.json'):
+def write_info_to_json(vacancy_list: list, file_name='search_results.json'):
+    """
+    Записывает данные о найденных вакансиях в файл
+    :param vacancy_list: Список словарей с данными о вакансиях
+    :param file_name: Имя файла, в который будут записаны данные
+    :return: None
+    """
 
     with open(file_name, 'w') as json_file:
         json.dump(vacancy_list, json_file, indent=2, ensure_ascii=False)
