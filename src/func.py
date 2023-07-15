@@ -20,6 +20,29 @@ def get_filters() -> tuple:
     return town, currency, payment, experience, employment
 
 
+def search_without_filters(keyword, platform):
+    hh = HeadHunter_API()
+    hh_data = hh.get_vacancies(keyword)
+
+    sj = SuperJob_API()
+    sj_data = sj.get_vacancies(keyword)
+
+    if platform == 1:
+        data = hh_data
+
+    elif platform == 2:
+        data = sj_data
+
+    elif platform == 3:
+        data = hh_data + sj_data
+
+    vacancies = []
+
+    for item in data:
+        vacancy = Vacancy(item)
+        vacancies.append(vacancy)
+
+
 def interaction_with_user():
 
     """
@@ -40,24 +63,5 @@ def interaction_with_user():
 
     else:
 
-        hh = HeadHunter_API()
-        hh_data = hh.get_vacancies(keyword)
-
-        sj = SuperJob_API()
-        sj_data = sj.get_vacancies(keyword)
-
-        if platform == 1:
-            data = hh_data
-
-        elif platform == 2:
-            data = sj_data
-
-        elif platform == 3:
-            data = hh_data + sj_data
-
-        vacancies = []
-
-        for item in data:
-            vacancy = Vacancy(item)
-            vacancies.append(vacancy)
+        search_without_filters(keyword, platform)
 
