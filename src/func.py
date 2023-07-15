@@ -53,8 +53,20 @@ def interaction_with_user():
     """
 
     keyword = input('Введите ключевое слово для поиска вакансий:\n')
-    platform = int(input('На какой платформе будем искать вакансии? (1 - HH, 2 - SuperJob, 3 - обе):\n'))
-    filters = input('Желаете ли применить фильтры к результатам поиска? (да/нет)\n')
+
+    while True:
+        platform = input('На какой платформе будем искать вакансии? (1 - HH, 2 - SuperJob, 3 - обе):\n')
+        if platform == '1' or platform == '2' or platform == '3':
+            break
+        else:
+            print('Введите корректное значение (1/2/3)')
+
+    while True:
+        filters = input('Желаете ли применить фильтры к результатам поиска? (да/нет)\n')
+        if filters.lower() == 'да' or filters.lower() == 'нет':
+            break
+        else:
+            print('Введите да или нет')
 
     if filters.lower() == 'да':
 
@@ -63,7 +75,9 @@ def interaction_with_user():
         if town != '':
             keyword += f' {town.lower().title()}'
 
-    else:
+    elif filters.lower() == 'нет':
 
         search_without_filters(keyword, platform)
 
+
+interaction_with_user()
