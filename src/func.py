@@ -254,8 +254,8 @@ def compare_vacancies(vacancies_list: list, first_name: str, second_name: str):
             second_vacancy = vacancy
 
     if first_vacancy >= second_vacancy:
-        return f'Заработная плата у вакансии "{first_vacancy}" выше, чем у "{second_vacancy}"'
-    return f'Заработная плата у вакансии "{first_vacancy}" ниже, чем у "{second_vacancy}"'
+        return f'Заработная плата у вакансии "{first_vacancy.name}" выше, чем у "{second_vacancy.name}"'
+    return f'Заработная плата у вакансии "{first_vacancy.name}" ниже, чем у "{second_vacancy.name}"'
 
 
 def compare_interactions(vacancy_list: list):
@@ -270,6 +270,6 @@ def compare_interactions(vacancy_list: list):
             if first_vacancy_name.lower() == 'стоп' or second_vacancy_name.lower() == 'стоп':
                 return 'Готово'
             else:
-                compare_vacancies(vacancy_list, first_vacancy_name, second_vacancy_name)
+                return compare_vacancies(vacancy_list, first_vacancy_name, second_vacancy_name)
     else:
         return 'Готово'
