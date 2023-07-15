@@ -64,17 +64,39 @@ def search_without_filters(keyword, platform):
     return vacancies_data
 
 
-# def search_with_filters(keyword, platform):
-#     """
-#     Поиск вакансий по ключевому слову на заданной платформе с заданными фильтрами
-#     :param keyword: Ключевое слово
-#     :param platform: Номер платформы
-#     :return: Список вакансий
-#     """
-#
-#     vacancies_data = search_without_filters(keyword, platform)
-#
-#     return vacancies_data
+def currency_filter(vacation_list, user_currency):
+    """
+    Фильтрует список вакансий оставляя вакансии только с зарплатой в валюте, указанной пользователем
+    :param vacation_list: Список вакансий
+    :param user_currency: Указанная пользователем валюта
+    :return: Отфильтрованный список вакансий
+    """
+    filtered_list = []
+
+    for vacation in vacation_list:
+        if vacation['currency'].upper() == user_currency.upper():
+            filtered_list.append(vacation)
+
+    return filtered_list
+
+
+def search_with_filters(keyword, platform):
+    """
+    Поиск вакансий по ключевому слову на заданной платформе с заданными фильтрами
+    :param keyword: Ключевое слово
+    :param platform: Номер платформы
+    :return: Список вакансий
+    """
+
+    town, currency, payment, experience, employment = get_filters()
+
+    if town != '':
+        keyword += f' {town.lower().title()}'
+
+    vacancies_data = search_without_filters(keyword, platform)
+    filtered_vacancies = currency_filter(vacancies_data, currency)
+
+    return vacancies_data
 
 
 def interaction_with_user():
@@ -102,12 +124,7 @@ def interaction_with_user():
 
     if filters.lower() == 'да':
 
-        town, currency, payment, experience, employment = get_filters()
-
-        if town != '':
-            keyword += f' {town.lower().title()}'
-
-        # data = search_with_filters(keyword, platform)
+        data = search_with_filters(keyword, platform)
 
     elif filters.lower() == 'нет':
 
