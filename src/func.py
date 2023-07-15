@@ -9,40 +9,44 @@ def get_filters() -> tuple:
 
     currency = input('Введите желаемую валюту (RUB, USD, EUR): \n')
 
-    if currency is not None:
+    if currency != "":
         payment = input('Введите минимальную желаемую заработную плату: \n')
+    else:
+        payment = ""
 
     while True:
-        experience = int(input('Ваш опыт работы (0 - без опыта, 1 - от 1 до 3 лет, 2 - от 3 до 6 лет,'
-                               '3 - более 6 лет): \n'))
-        if experience == 0 or experience == 1 or experience == 2 or experience == 3:
+        experience = input('Ваш опыт работы (0 - без опыта, 1 - от 1 до 3 лет, 2 - от 3 до 6 лет, '
+                           '3 - более 6 лет): \n')
+        if experience == '0' or experience == '1' or experience == '2' or experience == '3' or experience == '':
             break
         else:
             print('Введите корректное значение')
 
     while True:
-        employment = int(input('Выберите желаемый тип занятости (1 - полный день, 2 - неполный день, 3 - сменный график'
-                               ' \n4 - частичная занятость, 5 - временная работа, 6 - вахтовый метод, 7 - стажировка):'))
-        if employment == 1:
+        employment = input('Выберите желаемый тип занятости (1 - полный день, 2 - неполный день, 3 - сменный график'
+                           ' \n4 - частичная занятость, 5 - временная работа, 6 - вахтовый метод, 7 - стажировка):\n')
+        if employment == '1':
             employment = 'Полный рабочий день'
             break
-        elif employment == 2:
+        elif employment == '2':
             employment = 'Неполный рабочий день'
             break
-        elif employment == 3:
+        elif employment == '3':
             employment = 'Сменный график работы'
             break
-        elif employment == 4:
+        elif employment == '4':
             employment = 'Частичная занятость'
             break
-        elif employment == 5:
+        elif employment == '5':
             employment = 'Временная работа'
             break
-        elif employment == 6:
+        elif employment == '6':
             employment = 'Вахтовый метод'
             break
-        elif employment == 7:
+        elif employment == '7':
             employment = 'Стажировка'
+            break
+        elif employment == '':
             break
         else:
             print('Введите корректное значение')
@@ -124,8 +128,8 @@ def payment_filter(vacation_list, user_payment):
         if vacancy['min_salary'] == 'Минимальная зарплата не указана' and \
                 vacancy['max_salary'] == 'Максимальная зарплата не указана':
             continue
-        elif vacancy['max_salary'].issubset(int):
-            if user_payment < vacancy['max_salary']:
+        elif type(vacancy['max_salary']) is int:
+            if int(user_payment) < int(vacancy['max_salary']):
                 filtered_list.append(vacancy)
             else:
                 continue
@@ -146,13 +150,13 @@ def experience_filter(vacation_list, user_experience):
     filtered_list = []
 
     for vacancy in vacation_list:
-        if user_experience == 3:
+        if user_experience == '3':
             filtered_list.append(vacancy)
-        elif user_experience == 2 and vacancy['experience'] != 'От 6 лет':
+        elif user_experience == '2' and vacancy['experience'] != 'От 6 лет':
             filtered_list.append(vacancy)
-        elif user_experience == 1 and (vacancy['experience'] == 'Без опыта' or vacancy['experience'] == 'От 1 года'):
+        elif user_experience == '1' and (vacancy['experience'] == 'Без опыта' or vacancy['experience'] == 'От 1 года'):
             filtered_list.append(vacancy)
-        elif user_experience == 0 and vacancy['experience'] == 'Без опыта':
+        elif user_experience == '0' and vacancy['experience'] == 'Без опыта':
             filtered_list.append(vacancy)
         else:
             continue
@@ -190,7 +194,7 @@ def search_with_filters(keyword, platform):
     if town != '':
         keyword += f' {town.lower().title()}'
 
-    vacancies_data = search_without_filters(keyword, platform)
+    vacancies_data = search_without_filters(keyword, int(platform))
     if currency != '':
         vacancies_data = currency_filter(vacancies_data, currency)
     if payment != '':
@@ -240,3 +244,6 @@ def interaction_with_user():
         vacancies.append(vacancy)
 
     return data, vacancies
+
+
+print(interaction_with_user())

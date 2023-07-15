@@ -37,8 +37,20 @@ class HeadHunter_API(API_platform):
         for item in data:
             vacancy = {
                 'name': item['name'], 'url': item['alternate_url'], 'employment': item['employment']['name'],
-                'experience': item['experience']['name'], 'area': item['area']['name']
+                'area': item['area']['name']
             }
+
+            if item['experience']['name'] == 'Нет опыта':
+                vacancy['experience'] = 'Без опыта'
+            elif item['experience']['name'] == 'От 1 года до 3 лет':
+                vacancy['experience'] = 'От 1 года'
+            elif item['experience']['name'] == 'От 3 до 6 лет':
+                vacancy['experience'] = 'От 3 лет'
+            elif item['experience']['name'] == 'Более 6 лет':
+                vacancy['experience'] = 'От 6 лет'
+            else:
+                vacancy['experience'] = 'Не имеет значения'
+
             if item['salary'] is None:
                 vacancy['min_salary'] = 'По договоренности'
                 vacancy['max_salary'] = 'По договоренности'
@@ -87,7 +99,7 @@ class SuperJob_API(API_platform):
         for item in data:
             vacancy = {
                 'name': item['profession'], 'url': item['link'], 'employment': item['type_of_work']['title'],
-                'experience': item['experience']['title'], 'area': item['town']['title']
+                'area': item['town']['title'], 'experience': item['experience']['title']
             }
             if item['payment_from'] == item['payment_to'] == 0:
                 vacancy['min_salary'] = 'По договоренности'
