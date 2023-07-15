@@ -12,10 +12,21 @@ def get_filters() -> tuple:
     if currency is not None:
         payment = input('Введите минимальную желаемую заработную плату: \n')
 
-    experience = input('Ваш опыт работы (0 - без опыта, 1 - от 1 до 3 лет, 2 - от 3 до 6 лет, 3 - более 6 лет): \n')
+    while True:
+        experience = int(input('Ваш опыт работы (0 - без опыта, 1 - от 1 до 3 лет, 2 - от 3 до 6 лет,'
+                               '3 - более 6 лет): \n'))
+        if experience == 0 or experience == 1 or experience == 2 or experience == 3:
+            break
+        else:
+            print('Введите корректное значение')
 
-    employment = input('Выберите желаемый тип занятости (1 - полный день, 2 - неполный день, 3 - сменный график, \n'
-                       '4 - частичная занятость, 5 - временная работа, 6 - вахтовый метод, 7 - стажировка): ')
+    while True:
+        employment = int(input('Выберите желаемый тип занятости (1 - полный день, 2 - неполный день, 3 - сменный график'
+                               ' \n4 - частичная занятость, 5 - временная работа, 6 - вахтовый метод, 7 - стажировка):'))
+        if employment == 1 or employment == 2 or employment == 3 or employment == 4 or employment == 5 or employment == 6 or employment == 7:
+            break
+        else:
+            print('Введите корректное значение')
 
     return town, currency, payment, experience, employment
 
@@ -92,7 +103,7 @@ def payment_filter(vacation_list, user_payment):
 
     for vacancy in vacation_list:
         if vacancy['min_salary'] == 'Минимальная зарплата не указана' and \
-           vacancy['max_salary'] == 'Максимальная зарплата не указана':
+                vacancy['max_salary'] == 'Максимальная зарплата не указана':
             continue
         elif vacancy['max_salary'].issubset(int):
             if user_payment < vacancy['max_salary']:
@@ -151,7 +162,6 @@ def search_with_filters(keyword, platform):
 
 
 def interaction_with_user():
-
     """
     Функция взаимодействия с пользователем
     :return: Список словарей с вакансиями (data), список экземпляров класса Vacancy (vacancies)
