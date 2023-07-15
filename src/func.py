@@ -247,6 +247,14 @@ def interaction_with_user():
 
 
 def compare_vacancies(vacancies_list: list, first_name: str, second_name: str):
+    """
+    Находит в списке вакансий вакансии, выбранные пользователем и сравнивает их по минимальной ЗП
+    :param vacancies_list: Список вакансий
+    :param first_name: Название первой вакансии
+    :param second_name: Название второй вакансии
+    :return: string - результат сравнения вакансий
+    """
+
     for vacancy in vacancies_list:
         if vacancy.name == first_name:
             first_vacancy = vacancy
@@ -262,6 +270,11 @@ def compare_vacancies(vacancies_list: list, first_name: str, second_name: str):
 
 
 def compare_interactions(vacancy_list: list):
+    """
+    Получает у пользователя информацию о названиях вакансий, которые необходимо сравнить и вызывает функцию сравнения
+    :param vacancy_list: Список вакансий
+    :return: Строка, сообщающая информацию о результате выполнения функции
+    """
     comparison = input('Хотите сравнить какие-то вакансии по уровню ЗП?\n')
 
     if comparison.lower() == 'да':
