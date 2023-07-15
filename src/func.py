@@ -95,7 +95,13 @@ def search_without_filters(keyword, platform):
     elif platform == 3:
         vacancies_data = get_hh_vacancies(keyword) + get_sj_vacancies(keyword)
 
-    return vacancies_data
+    vacancies = []
+
+    for item in vacancies_data:
+        vacancy = Vacancy(item)
+        vacancies.append(vacancy)
+
+    return vacancies
 
 
 def currency_filter(vacation_list, user_currency):
@@ -108,7 +114,7 @@ def currency_filter(vacation_list, user_currency):
     filtered_list = []
 
     for vacation in vacation_list:
-        if vacation['currency'].upper() == user_currency.upper():
+        if vacation.currency.upper() == user_currency.upper():
             filtered_list.append(vacation)
 
     return filtered_list
@@ -125,11 +131,11 @@ def payment_filter(vacation_list, user_payment):
     filtered_list = []
 
     for vacancy in vacation_list:
-        if vacancy['min_salary'] == 'Минимальная зарплата не указана' and \
-                vacancy['max_salary'] == 'Максимальная зарплата не указана':
+        if vacancy.min_salary == 'Минимальная зарплата не указана' and \
+                vacancy.max_salary == 'Максимальная зарплата не указана':
             continue
-        elif type(vacancy['max_salary']) is int:
-            if int(user_payment) < int(vacancy['max_salary']):
+        elif type(vacancy.max_salary) is int:
+            if int(user_payment) < int(vacancy.max_salary):
                 filtered_list.append(vacancy)
             else:
                 continue
@@ -152,11 +158,11 @@ def experience_filter(vacation_list, user_experience):
     for vacancy in vacation_list:
         if user_experience == '3':
             filtered_list.append(vacancy)
-        elif user_experience == '2' and vacancy['experience'] != 'От 6 лет':
+        elif user_experience == '2' and vacancy.experience != 'От 6 лет':
             filtered_list.append(vacancy)
-        elif user_experience == '1' and (vacancy['experience'] == 'Без опыта' or vacancy['experience'] == 'От 1 года'):
+        elif user_experience == '1' and (vacancy.experience == 'Без опыта' or vacancy.experience == 'От 1 года'):
             filtered_list.append(vacancy)
-        elif user_experience == '0' and vacancy['experience'] == 'Без опыта':
+        elif user_experience == '0' and vacancy.experience == 'Без опыта':
             filtered_list.append(vacancy)
         else:
             continue
@@ -175,7 +181,7 @@ def employment_filter(vacation_list, user_employment):
     filtered_list = []
 
     for vacancy in vacation_list:
-        if vacancy['employment'] == user_employment:
+        if vacancy.employment == user_employment:
             filtered_list.append(vacancy)
 
     return filtered_list
@@ -237,13 +243,4 @@ def interaction_with_user():
 
         data = search_without_filters(keyword, int(platform))
 
-    vacancies = []
-
-    for item in data:
-        vacancy = Vacancy(item)
-        vacancies.append(vacancy)
-
-    return data, vacancies
-
-
-print(interaction_with_user())
+    return data
