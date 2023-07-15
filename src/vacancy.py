@@ -17,6 +17,9 @@ class Vacancy:
         self.max_salary = vacancy_dict['max_salary']
         self.currency = vacancy_dict['currency']
 
+    def __ge__(self, other):
+        return int(self.min_salary) >= int(other.min_salary)
+
     def make_dict(self):
         """
         Записывает данные о вакансии в json-подобном формате
