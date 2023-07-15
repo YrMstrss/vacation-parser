@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import requests
 import os
 
+
 class API_platform(ABC):
     """
     Абстрактный класс для работы с API разных платформ
@@ -39,7 +40,9 @@ class HeadHunter_API(API_platform):
                 'experience': item['experience']['name'], 'area': item['area']['name']
             }
             if item['salary'] is None:
-                vacancy['salary'] = 'По договоренности'
+                vacancy['min_salary'] = 'По договоренности'
+                vacancy['max_salary'] = 'По договоренности'
+                vacancy['currency'] = 'Не указано'
             else:
                 if item['salary']['from'] is None:
                     vacancy['min_salary'] = 'Минимальная зарплата не указана'
@@ -84,18 +87,21 @@ class SuperJob_API(API_platform):
                 'experience': item['experience']['title'], 'area': item['town']['title']
             }
             if item['payment_from'] == item['payment_to'] == 0:
-                vacancy['salary'] = 'По договоренности'
+                vacancy['min_salary'] = 'По договоренности'
+                vacancy['max_salary'] = 'По договоренности'
             else:
                 if item['payment_from'] == 0:
                     vacancy['min_salary'] = 'Минимальная зарплата не указана'
+                    vacancy['currency'] = 'Не указано'
                 else:
-                    vacancy['min_salary'] = item['salary']['from']
+                    vacancy['min_salary'] = item['payment_from']
+                    vacancy['currency'] = item['currency']
 
                 if item['payment_to'] == 0:
                     vacancy['max_salary'] = 'Максимальная зарплата не указана'
                 else:
-                    vacancy['max_salary'] = item['salary']['to']
-                vacancy['currency'] = item['currency']
+                    vacancy['max_salary'] = item['payment_to']
+                    vacancy['currency'] = item['currency']
 
             vacancies.append(vacancy)
 
