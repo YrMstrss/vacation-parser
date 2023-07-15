@@ -20,29 +20,51 @@ def get_filters() -> tuple:
     return town, currency, payment, experience, employment
 
 
-def search_without_filters(keyword, platform):
+def get_hh_vacancies(keyword):
     hh = HeadHunter_API()
     hh_data = hh.get_vacancies(keyword)
 
+    return hh_data
+
+
+def get_sj_vacancies(keyword):
     sj = SuperJob_API()
     sj_data = sj.get_vacancies(keyword)
 
+    return sj_data
+
+
+def search_without_filters(keyword, platform):
+    """
+    Поиск вакансий по ключевому слову на заданной платформе без фильтров
+    :param keyword: Ключевое слово
+    :param platform: Номер платформы
+    :return: Список вакансий
+    """
+
     if platform == 1:
-        data = hh_data
+        vacancies_data = get_hh_vacancies(keyword)
 
     elif platform == 2:
-        data = sj_data
+        vacancies_data = get_sj_vacancies(keyword)
 
     elif platform == 3:
-        data = hh_data + sj_data
+        vacancies_data = get_hh_vacancies(keyword) + get_sj_vacancies(keyword)
 
-    vacancies = []
+    return vacancies_data
 
-    for item in data:
-        vacancy = Vacancy(item)
-        vacancies.append(vacancy)
 
-    return vacancies
+# def search_with_filters(keyword, platform):
+#     """
+#     Поиск вакансий по ключевому слову на заданной платформе с заданными фильтрами
+#     :param keyword: Ключевое слово
+#     :param platform: Номер платформы
+#     :return: Список вакансий
+#     """
+#
+#     vacancies_data = search_without_filters(keyword, platform)
+#
+#     return vacancies_data
 
 
 def interaction_with_user():
@@ -75,9 +97,16 @@ def interaction_with_user():
         if town != '':
             keyword += f' {town.lower().title()}'
 
+        # data = search_with_filters(keyword, platform)
+
     elif filters.lower() == 'нет':
 
-        search_without_filters(keyword, platform)
+        data = search_without_filters(keyword, int(platform))
 
+    vacancies = []
 
-interaction_with_user()
+    for item in data:
+        vacancy = Vacancy(item)
+        vacancies.append(vacancy)
+
+    return data, vacancies
