@@ -171,7 +171,11 @@ def employment_filter(vacation_list, user_employment):
     filtered_list = []
 
     for vacancy in vacation_list:
-        if vacancy['e']
+        if vacancy['employment'] == user_employment:
+            filtered_list.append(vacancy)
+
+    return filtered_list
+
 
 def search_with_filters(keyword, platform):
     """
@@ -187,11 +191,16 @@ def search_with_filters(keyword, platform):
         keyword += f' {town.lower().title()}'
 
     vacancies_data = search_without_filters(keyword, platform)
-    filtered_vacancies = currency_filter(vacancies_data, currency)
-    filtered_vacancies = payment_filter(filtered_vacancies, payment)
-    filtered_vacancies = experience_filter(filtered_vacancies, experience)
+    if currency != '':
+        vacancies_data = currency_filter(vacancies_data, currency)
+    if payment != '':
+        vacancies_data = payment_filter(vacancies_data, payment)
+    if experience != '':
+        vacancies_data = experience_filter(vacancies_data, experience)
+    if employment != '':
+        vacancies_data = employment_filter(vacancies_data, employment)
 
-    return filtered_vacancies
+    return vacancies_data
 
 
 def interaction_with_user():
