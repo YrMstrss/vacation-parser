@@ -23,7 +23,26 @@ def get_filters() -> tuple:
     while True:
         employment = int(input('Выберите желаемый тип занятости (1 - полный день, 2 - неполный день, 3 - сменный график'
                                ' \n4 - частичная занятость, 5 - временная работа, 6 - вахтовый метод, 7 - стажировка):'))
-        if employment == 1 or employment == 2 or employment == 3 or employment == 4 or employment == 5 or employment == 6 or employment == 7:
+        if employment == 1:
+            employment = 'Полный рабочий день'
+            break
+        elif employment == 2:
+            employment = 'Неполный рабочий день'
+            break
+        elif employment == 3:
+            employment = 'Сменный график работы'
+            break
+        elif employment == 4:
+            employment = 'Частичная занятость'
+            break
+        elif employment == 5:
+            employment = 'Временная работа'
+            break
+        elif employment == 6:
+            employment = 'Вахтовый метод'
+            break
+        elif employment == 7:
+            employment = 'Стажировка'
             break
         else:
             print('Введите корректное значение')
@@ -141,6 +160,19 @@ def experience_filter(vacation_list, user_experience):
     return filtered_list
 
 
+def employment_filter(vacation_list, user_employment):
+    """
+    Фильтрует список вакансий, оставляя только подходящие пользователю по типу занятости
+    :param vacation_list: Список вакансий
+    :param user_employment: Тип занятости, подходящий пользователю
+    :return: Отфильтрованный список
+    """
+
+    filtered_list = []
+
+    for vacancy in vacation_list:
+        if vacancy['e']
+
 def search_with_filters(keyword, platform):
     """
     Поиск вакансий по ключевому слову на заданной платформе с заданными фильтрами
@@ -157,6 +189,7 @@ def search_with_filters(keyword, platform):
     vacancies_data = search_without_filters(keyword, platform)
     filtered_vacancies = currency_filter(vacancies_data, currency)
     filtered_vacancies = payment_filter(filtered_vacancies, payment)
+    filtered_vacancies = experience_filter(filtered_vacancies, experience)
 
     return filtered_vacancies
 
