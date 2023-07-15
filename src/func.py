@@ -21,6 +21,11 @@ def get_filters() -> tuple:
 
 
 def get_hh_vacancies(keyword):
+    """
+    Обращается к классу HeadHunter_API для получения данных по ключевому слову
+    :param keyword: Ключевое слово
+    :return: Полученные данные
+    """
     hh = HeadHunter_API()
     hh_data = hh.get_vacancies(keyword)
 
@@ -28,6 +33,11 @@ def get_hh_vacancies(keyword):
 
 
 def get_sj_vacancies(keyword):
+    """
+    Обращается к классу SuperJob_API для получения данных по ключевому слову
+    :param keyword: Ключевое слово
+    :return: Полученные данные:
+    """
     sj = SuperJob_API()
     sj_data = sj.get_vacancies(keyword)
 
@@ -71,7 +81,7 @@ def interaction_with_user():
 
     """
     Функция взаимодействия с пользователем
-    :return:
+    :return: Список словарей с вакансиями (data), список экземпляров класса Vacancy (vacancies)
     """
 
     keyword = input('Введите ключевое слово для поиска вакансий:\n')
