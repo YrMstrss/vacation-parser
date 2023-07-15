@@ -53,7 +53,10 @@ class HeadHunter_API(API_platform):
                     vacancy['max_salary'] = 'Максимальная зарплата не указана'
                 else:
                     vacancy['max_salary'] = item['salary']['to']
-                vacancy['currency'] = item['salary']['currency']
+                if item['salary']['currency'] == 'RUR':
+                    vacancy['currency'] = 'RUB'
+                else:
+                    vacancy['currency'] = item['salary']['currency']
 
             vacancies.append(vacancy)
 
