@@ -83,12 +83,13 @@ class SuperJob_API(API_platform):
 
         for item in data:
             vacancy = {
-                'name': item['profession'], 'url': item['link'], 'employment': item['type_of_work'],
+                'name': item['profession'], 'url': item['link'], 'employment': item['type_of_work']['title'],
                 'experience': item['experience']['title'], 'area': item['town']['title']
             }
             if item['payment_from'] == item['payment_to'] == 0:
                 vacancy['min_salary'] = 'По договоренности'
                 vacancy['max_salary'] = 'По договоренности'
+                vacancy['currency'] = 'Не указано'
             else:
                 if item['payment_from'] == 0:
                     vacancy['min_salary'] = 'Минимальная зарплата не указана'
